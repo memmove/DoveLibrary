@@ -372,10 +372,11 @@ do
         local name = info.name or info.Name or info.title or info.Title or "UI Title"
         local size = info.size or info.Size or Vector2.new(504,604)
         local accent = info.accent or info.Accent or info.color or info.Color or theme.accent
+        local uibind = info.uibind or info.UIBind or info.Uibind or info.keybind or info.Keybind or Enum.KeyCode.End
         --
         theme.accent = accent
         --
-        local window = {pages = {}, isVisible = false, uibind = Enum.KeyCode.Z, currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil}}
+        local window = {pages = {}, isVisible = false, uibind = uibind, currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil}}
         --
         local main_frame = utility:Create("Frame", {Vector2.new(0,0)}, {
             Size = utility:Size(0, size.X, 0, size.Y),
@@ -934,6 +935,14 @@ do
             uis.MouseIconEnabled = not window.isVisible
             --
             window.fading = false
+        end
+        --
+        function window:SetUIBind(keycode)
+            if typeof(keycode) == "EnumItem" then
+                window.uibind = keycode
+            end
+            --
+            return window.uibind
         end
         --
         function window:Initialize()
